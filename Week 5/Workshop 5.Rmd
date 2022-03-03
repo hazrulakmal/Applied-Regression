@@ -1,0 +1,67 @@
+---
+title: "Workshop 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+This is my first markdown document. 
+
+Let's load data
+
+```{r}
+library(ggplot2)
+library(car)
+library(arm)
+
+study_habits <- read.csv("Stats_study_habits.csv")
+grade.lm.2 <- lm(Grade ~ Study.Skills*factor(Interesting), data= study_habits)
+display(grade.lm.2)
+```
+
+the predictors are non-signigicant. 
+
+```{r}
+p1 <- ggplot(study_habits, aes(x=Study.Skills, y=Grade), color=factor(Interesting)) 
+p1<- p1 + geom_point(size=2) + geom_smooth(method="lm", se=FALSE)
+p1<-p1+scale_colour_discrete(name  ="Interesting",
+                            breaks=c("0", "1"),
+                            labels=c("No", "Yes"))
+p1
+```
+
+
+```{r}
+
+p1<-ggplot(study_habits, aes(x=Study.Skills, y=Grade, shape=factor(Interesting), color=factor(Interesting)))
+p1<- p1 + geom_point(size=2)  + theme_bw()
+p1<-p1+geom_smooth(method="lm", se=FALSE)
+p1<-p1+scale_colour_grey(name  ="Interesting",
+                            breaks=c("0", "1"),
+                            labels=c("No", "Yes"))
+p1<-p1+scale_shape_discrete(name  ="Interesting",
+                            breaks=c("0", "1"),
+                            labels=c("No", "Yes"))
+p1
+```
+
+```{r}
+out.1<-which(study_habits$Grade==min(study_habits$Grade))
+out.2<-with(study_habits, which(Grade<60 & Study.Skills<10))
+out.3<-with(study_habits, which(Grade>60 & Study.Skills<15))
+study_habits[c(out.1,out.2,out.3),c(2,7,8)]
+
+```
+
+
+```{r}
+colnames(study_habits)
+
+```
+
+
+
+

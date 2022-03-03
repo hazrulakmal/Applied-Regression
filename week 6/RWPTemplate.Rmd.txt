@@ -1,0 +1,94 @@
+---
+title: "Reading Week Project Template"
+author: "Sara Geneletti"
+output: word_document #pdf_document If you want to have pdf output then delete word_document and #
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document uses Markdown to write up the instructions for the Reading week mini project. The pdf and word document download together with the .Rmd that creates it. By comparing the two you can see how I have used Markdown to do things like section headings, italics, bullets etc. Using this together with the Week 5 Markdown report you should be able to write the whole report in Markdown. 
+
+If it is easier, you can change the document output to Windows Office and then you can format it there.
+
+#Group Work
+
+As with the first part of the report, you should decide what you need to do and then delegate tasks to group members. Choose who will write what but makes sure one person at least reads the final product to make sure it flows.
+
+##  Part II - Report 
+
+For Part II of the Reading week project you will need to have already performed your analysis. This part is about writing up your findings. I suggest that you take the descriptions made available to you and try and answer all the questions asked. While these do not necessarily cover all the relevant aspects they cover the most important ones. Once you have written up your answers try and link them together to form coherent arguments. [Stats report writing](http://www.maths.manchester.ac.uk/~saralees/68371_1.pdf) is a good place to look for an idea of how to structure the different parts of the report and has good pointers for how to write in the appropriate style. A few points from me.
+
+* _Be simple_ -- this report is worth only 5% it does not need to be perfect it is a learning experience
+* _Be factual_ -- do not invent things! Stick to what you know. There are parts of the report that ask you to explain why you think something is happening. Stick to the most likely explanations. If you can't think of one then say so.
+* _Be clear_ -- use simple and clear language. 
+
+**Do Not**
+
+* Include R code output in the report. You will upload R code separately
+* Go over the stated word limit. Choose what you say carefully
+* Write irrelevant stuff to increase the word count until you hit the limit. Concise and clear reports are best. You are conveying factual information, not writing a novel
+
+
+
+
+#Introduction (max 300 words, 10% of final mark for report) 
+
+The introduction should be a brief summary of the rest of the report. It should clearly state the question we are trying to answer (i.e. what explanatory variables affect the ks4score?) and why we are interested in this question in the first place. In this section you should also give a brief background on the data and why it is appropriate to use it to answer this question. You will need to do a small amount of research. Finally you should provide the final model and list which variables affect the ks4score in words as well. Think about the following when completing this part. 
+
+* What is the question of interest? 
+* Why can the data answer this question? 
+*  How was the original data set gathered? See [LSY](https://data.gov.uk/dataset/youth_cohort_study_longitudinal_study_of_young_people_in_en gland) 
+* What is the answer to the question of interest given your results (brief summary)?
+
+#From initial to Final Model (500 word limit, 20% of final mark for report) 
+
+This part describes how you got to the final model. You can start from a model with a few predictors that you think should be important or you could start with the full model and remove predictors that you don't think are important. 
+_Statistical significance of regression coefficients should not be your main criterion for deciding whether or not to keep a predictor_. Neither should the other diagnostic statistics. Your goal is not to find the model the optimises the diagnostic statistics but that makes the most sense while including all predictors that are important. _This means you need to think first of all about what variables you think should matter and are good predictors of ks4score_. Consider also outliers and pay special attention to categorical variables in particular deciding on relevant baselines and interactions.
+
+How did you get  to the final model?
+
+* Write down a chronological list of what you did. Make sure it follows your R code.
+* Then write it up as a single paragraph. This does not have to have any flowery language just the basic steps. Don't invent extra steps to fill up the space. If you have little to say, say little. 
+* When  did you decide to remove or add a predictor?
+* If you found outliers/influential points how did you deal with them? You can present separate regressions if this is important
+* Did you decide to include any interactions? Why?
+* All decisions will need to be explained.
+ * Refer to plots and report diagnostics where relevant. 
+
+**Plots**
+ 
+The plots that are important are those that have triggered a decision to make changes to the model or show that the model is inadequate in some way. At this stage you do not yet have the knowledge to make many changes to the analysis, however if the residual plots show violations of the assumptions then you should show them. If not then it is typically not necessary. _I would prefer a short report with only the essentials to a long report that includes every plot you produces._
+
+#Results (500 word limit -- not including tables, 20% of final marks of report) 
+
+Tables are very important in a statistical report. You should NOT copy and paste the R output. In Moodle there is a link to a website that generates Markdown tables for you if you fill in the values. You can use that or produce a Word document output and add a table to that. The output of ``display()`` has the right amount of information for a table. Do not include additional output (e.g. of ``summary()``). 
+
+Also briefly here list the important variables and how you would interpret them.Give a summary of how each coefficient affects the outcome. A full explanation is given in the final section "Interpretation & Conclusions for a lay audience". 
+Try not to repeat the same sentence as this can make for boring reading.
+
+#Comments about the data/analysis (500 word limit, 20% of the final mark for the report) 
+
+Many data sets are not perfect because they are collected from people. Some people will have refused to answer some questions or any question. Others will have answered them incorrectly because they feel the truth reflects badly on them. 
+
+Your data are a subset of a larger dataset which is in turn a subset of a larger dataset the LSY. The subset I used to generate your datasets contains only individuals who responded to all the questions. Think about how only analysing data on respondents might affect the results. 
+
+Another potential issue is that because I chose a random subset of the data (300 out of 7800), an analysis of the subset might lead to surprising results. For example you might expect the ks3score to be positively correlated with the ks4score. It may be the case that in your sample this does not happen. If you encounter any surprising or counter-intuitive results, check that they are indeed correct and if they are discuss them. Don't panic if this happens. It is an example of how samples can be very un-representative of the general population! 
+
+In this section try and answer the following questions:
+
+* Thinking about your predictors specifically do you think your results (coefficients) would have been different if everyone in the population had responded? I.e. could you generalise the results to all young people?
+* Do you think this has the potential to seriously impact on the results? Explain your answer. 
+* Are there any variables where individuals might have lied when answering? Why? 
+* Are any of your results counter-intuitive? In what way? 
+* Are there any serious flaws in your analysis that you cannot fix due to lack of expertise or because the data are flawed? Explain what you mean.
+
+#Interpretation & Conclusions for a lay audience (1000 word limit, 30% of final marks for report)
+
+The conclusions and interpretation section links back to the introduction and covers in more detail the interpretation of the results. This is the most _important part of the report_ for non-statisticians and in the end of year project a whole part is dedicated to it. Because it must be easy to understand for a non-statistician it is the part where you need to write most clearly and simply. Use NO technical language. Think about the following points when you write up this section.
+
+* How would you explain the results to your sister/brother/mother/father/friend who is not a statistician?
+* One way to think about this is to look at 3-4 different types of people from your data set and calculate the expected ks4score for them. This can make things easier to understand. For example say "a male with ks3score of 10 and of white ethnicity is expected to get ks4score 50. On the other hand if you are a girl with the same ethnicity and ks3score you're expected to get 55". Highlighting this difference in the outcome via an example really helps. A few cleverly chosen examples can be very illuminating.
+* Make sure this part flows. Try it on your sister/brother/mother/father/friend and see if they understand it. Simple is best. You can use a table as well to show the results.
+* Based on this small data set what would your recommendations be (if any) to a government representative?
