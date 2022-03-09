@@ -33,6 +33,11 @@ p21<-ggplot(rw.data, aes(x=exclude, y=ks4score)) + geom_boxplot()
 p22<-ggplot(rw.data, aes(x=IDACI_n, y=ks4score)) + geom_point()
 p23<-ggplot(rw.data, aes(x=FSMband, y=ks4score)) + geom_boxplot()
 
+p24<-ggplot(rw.data, aes(x= fiveac, y=ks4score, fill=gender)) + geom_boxplot() 
+p24 <- p24 + theme_bw()
+p24
+
+
 p7 <- p7 +  theme(axis.text.x = element_text(angle = 30, vjust = 1, hjust=1))
 p8 <- p8 + theme(axis.text.x = element_text(angle = 30, vjust = 1, hjust=1))
 grid.arrange( p7, p8, ncol =2, nrow=1)
@@ -40,8 +45,8 @@ grid.arrange(p1, p2, p3, p4, ncol =2, nrow=2)
 grid.arrange(p5, p6, p9, p10,p11,p12, ncol =3, nrow=2)
 grid.arrange(p13,p14,p15,nrow=2)
 grid.arrange(p16,nrow=1)
-grid.arrange(p17,p21,p19,p20,nrow=2)
-grid.arrange(p18,p22,p23,nrow=2)
+grid.arrange(p27,p21,p19,p20,nrow=2)
+grid.arrange(p18,p22,p28,nrow=2)
 
 ##--- singlepar, house, fsm, parasp, tuition, computer, attitude, exclude, truancy, absent, sen, fsmband
 
@@ -57,7 +62,7 @@ levels(new.rw.data$new_homework)[levels(new.rw.data$new_homework)%in%
                                    c("3_evenings","4_evenings","5_evenings")] <- "high"
 summary(new.rw.data$new_homework)
 p25<-ggplot(new.rw.data, aes(x=new_homework, y=ks4score)) + geom_boxplot()
-
+p25
 ##---attitude
 new.rw.data$new_attitude <- new.rw.data$attitude
 levels(new.rw.data$new_attitude)[levels(new.rw.data$new_attitude)%in%
@@ -114,18 +119,19 @@ p29<-ggplot(new.rw.data, aes(x=new_secshort, y=ks4score)) + geom_boxplot()
 new.rw.data$new_hiquamum <- new.rw.data$hiquamum
 
 levels(new.rw.data$new_hiquamum)[levels(new.rw.data$new_hiquamum) %in% c("GCE_A_Level_or_equivalent","HE_below_degree_level")] <- "Pre-university-equivalent"
-
 summary(new.rw.data$new_hiquamum)
+p30<-ggplot(new.rw.data, aes(x=new_hiquamum, y=ks4score)) + geom_boxplot()
+p30 <- p30 + theme(axis.text.x = element_text(angle = 30, vjust = 1, hjust=1))
 
-grid.arrange(p25, p27, p24, p28, ncol =2, nrow=2)
+grid.arrange(p29, p30, ncol =2)
 
 #note
 # use meank3s, remove fsm, tuition, new_secshort, idacn 
 
 
 ##----change the baselines
-new.rw.data$SECshort <- relevel(new.rw.data$new_secshort, ref = "non-professional")
-new.rw.data$hiqumum <- relevel(new.rw.data$new_hiquamum, ref = "No_qualification")
+new.rw.data$new_secshort <- relevel(new.rw.data$new_secshort, ref = "non-professional")
+new.rw.data$new_hiquamum <- relevel(new.rw.data$new_hiquamum, ref = "No_qualification")
 new.rw.data$singlepar <- relevel(new.rw.data$singlepar, ref = "yes")
 new.rw.data$house <- relevel(new.rw.data$house, ref = "rented")
 new.rw.data$fsm <- relevel(new.rw.data$fsm, ref = "yes")
@@ -139,6 +145,7 @@ new.rw.data$truancy <- relevel(new.rw.data$truancy, ref = "Yes")
 new.rw.data$absent <- relevel(new.rw.data$absent, ref = "Yes")
 new.rw.data$exclude <- relevel(new.rw.data$exclude, ref = "Yes")
 new.rw.data$FSMband <- relevel(new.rw.data$new_FSMband, ref = "low")
+
 
 
 ##---first regression
@@ -382,7 +389,7 @@ summary(ks4score.all.lm11)
 ##---as new_FSMband is non-significant at 5% level, remove it.
 
 final_model <- lm(ks4score ~ factor(fiveac)
-                  + k3ma +factor(new_hiquamum)
+                  + factor(k3ma) +factor(new_hiquamum)
                   +factor(gender)
                   +factor(house)
                   +factor(pupasp)
