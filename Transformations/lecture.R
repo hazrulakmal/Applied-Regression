@@ -35,7 +35,7 @@ mean(hourly_pay$age)
 hourly_pay$std.age <- with(hourly_pay, (age-mean(age))/sd(age))
 hourly_pay$std.gender <- with(hourly_pay, (gender-mean(gender))/sd(gender))
 
-std.gender.2<-with(hourly_pay,(gender-mean(gender)/sd(gender)))
+std.gender.2<-with(hourly_pay,(gender-mean(gender)/sd(gender))) #code in the lecture
 
 lm.sd.1 <- lm(hourpay ~ std.age + std.gender, hourly_pay)              
 display(lm.sd.1)

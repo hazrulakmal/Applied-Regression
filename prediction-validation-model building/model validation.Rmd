@@ -1,0 +1,99 @@
+---
+title: "Week 8 Model Valuation & Prediction"
+output: html_notebook
+---
+
+### Objectives of Regression Models
+
+- Understanding the relationships between predictors and outcomes (Associatiaon and Casual Inference)ex. decision making, social sciences
+- Predict values for new data ex. Statistical finance and climate prediction (ML) (out of-sample prediction)
+
+We can use prediction to validate our model - if we see that our model did a great job in predicting new data, then there's an evidence the model captures the true underlying relationships between the variables. 
+
+- Cross-validation - splitting data into two (test & train data) use test data to train the model and train data to predict the values and validate them. 
+
+### In-and-Out Sample prediction
+- in sample prediction is likely to do well in the model than out of sample prediction
+
+```{r}
+library(arm)
+library(ggplot2)
+library(gridExtra)
+
+#out-of-sample prediction, test data is 2012 & 2013 while train is 2015
+study.skill.test <- read.csv("data/Stats_study_habits.new.csv", header= TRUE)
+study.skill.train <- read.csv("data/Stats_study_habits.csv", header= TRUE)
+```
+
+Regression model prediction allows us to know the interval prediction.
+
+Prediction graph
+- the bands in greay show th prediction interval. the further the value away from the mean, the higher the prediciton variance. hence longer interval length. 
+- the mean contains the most information. hence it's the shortes prediction interval. 
+
+```{r}
+lm.3 <- lm(Grade ~ Gender+Interesting+Study.Skills, study.skill.train)
+display(lm.3)
+```
+
+
+More out of sample prediction. 
+- we use 2012, 2013 data to predict data in 2015
+- mean square error is an evaluation metric.
+
+Understanding the prediction evaluation through plots.
+Predicted vs original points plot
+predicted points vs prediction error 
+
+```{r}
+predict.2015 <- predict(lm.3, study.skill.test)
+pred.val.data <- data.frame(predicted=predict.2015, original=study.skill.test$Grade, error= predict.2015-study.skill.test$Grade)
+
+p1 <- ggplot(pred.val.data, aes(x=predicted, y=original)) + geom_point() + geom_smooth(method="lm", se=FALSE)
+p1 <- p1 + geom_abline(slope = 1, intercept = 0, linetype="dashed")
+p1
+
+p2 <- ggplot(pred.val.data, aes(x=predicted, y=error)) + geom_point() 
+p2<- p2+geom_abline(slope=0,intercept=0) + geom_abline(slope = 0, intercept = sd(pred.val.data$predicted), linetype="dashed") +  geom_abline(slope = 0, intercept = -sd(pred.val.data$predicted), linetype="dashed")
+
+p3<- ggplot(pred.val.data, aes(x=error)) + geom_bar(stat="bin") + ylab("frequency")
+grid.arrange(p1,p2,p3 ,nrow=2, ncol=2)
+```
+straight line is a desirable line, prediction equal to real true values
+variability in the y axis and x-axis - yaxis is the grade range, prediction range is usually shorter due to the nature of taking the mean as a prediction. more variability in the y-axis than x-axis indicates the model doest capture the full variablitiy of the model. 
+not a great model - r-square is low. regression is not fit to the data
+
+#### Cross Validation
+
+The smaller the size of a training set the more variable the result is. -smaller sample size
+```{r}
+hourly.pay <- read.csv("data/Large_Hourly_Pay.csv", header= TRUE, stringsAsFactors = TRUE)
+summary(hourly.pay)
+
+#taking the subset of the data to explain some variabilities. 
+HP.1 <- sample(1:nrow(hourly.pay), 2000, replace = FALSE)
+subset_hourly.pay <- hourly.pay[HP.1,]
+colnames(subset_hourly.pay)
+
+train <- sample(1:nrow(hourly.pay), 0.9*2000, replace = FALSE)
+train_data <- subset_hourly.pay[train,] 
+test_data <- subset_hourly.pay[-train,] #the remaining 10% validation sample
+
+lm.4 <- lm(log(Grade)~., train_data)
+
+
+```
+
+```{r}
+plot(cars)
+```
+
+
+```{r}
+plot(cars)
+```
+
+
+```{r}
+plot(cars)
+```
