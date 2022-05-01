@@ -57,14 +57,35 @@ influtial.1 <- intersect(outliers.nursery$DFFITS,outliers.nursery$Leverage)
 influtial.1
 
 outliers.nursery$DFFITS.top
-outliers.nursery$Leverage.top
+typeof(outliers.nursery$Leverage.top)
 outliers.nursery$DFFITS
 
 nursery_dt[c(18, 28),][,4]
 
+#question 4 
+p1<-ggplot(data=nursery_dt, aes(x=Dep,y=NurseryExp))+geom_point()+geom_smooth(method="lm",se=FALSE)
+p2<-ggplot()+geom_smooth(data=nursery_dt[-c(18,28),],aes(x=Dep, y=NurseryExp), method="lm", se=FALSE, linetype="dashed")
+p1+p2$layers[]
+
+colnames(nursery_dt)
+third.lm <- lm(PrimaryExp ~ Dep + factor(MoreSmall), data=nursery_dt)
+fourth.lm <- lm(PrimaryExp ~ Dep*factor(MoreSmall), data=nursery_dt)
+display(third.lm)
+display(fourth.lm)
+
+p3 <- ggplot(data=nursery_dt, aes(x=Dep, y=PrimaryExp, colour=factor(MoreSmall)))+geom_point()+geom_smooth(method="lm",se=FALSE)
+p3
 
 
+predict(third.lm,data.frame(Dep=80,MoreSmall=0)) - predict(fourth.lm,data.frame(Dep=80,MoreSmall=0))
+predict(third.lm,data.frame(Dep=18,MoreSmall=1)) - predict(fourth.lm,data.frame(Dep=18,MoreSmall=1))
 
+#Redidual plots
+par(mfrow=c(2,2))
+plot(third.lm, which=c(1,2))
+hist(rstandard(third.lm), freq = FALSE , 
+     main="Histogram of standardised residuals", 
+     cex.main=0.8, xlab="Standardised residuals")
 
-
-
+range(nursery_dt$PrimaryExp)
+display(third.lm)

@@ -17,7 +17,9 @@ grid.arrange(p1,p2,p3,p4, nrow=2)
 
 #regression
 glm.1 <- glm(Health ~ Member, gym.df, family=binomial(link="logit"))
+invlogit(coef(glm.1)[1]) 
 summary(glm.1)
+
 
 #prediction table
 pred.glm.1<-as.numeric((glm.1$fitted.values>0.5))
@@ -26,6 +28,9 @@ table(glm.dat.1)
 
 glm.2 <- glm(Health ~. , gym.df, family=binomial(link="logit"))
 summary(glm.2)
+new.dat<-data.frame(Gender=c(1,1),Income=rep(mean(gym.df$Income),2),Member=c(1,1),Age=c(20,25))
+new.dat
+invlogit(predict(glm.2,newdata = new.dat))
 
 #plot
 health.breaks<-mutate(gym.df, bin=cut(Age,breaks = seq(20, 75, by=5)))
